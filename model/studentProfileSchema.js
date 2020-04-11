@@ -34,7 +34,7 @@ let studentProfileSchema = new Schema({
         required: true
     },
     semester: {
-        type: String,
+        type: Number,
         required: true
     },
     password: {

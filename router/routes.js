@@ -9,7 +9,10 @@ const services = require('../service/services')
 //signUp route
 router.post('/studentSignUp', services.studentSignUp);
 
+//Authentication
+router.get("/studentAuthentication/:email/:password", services.studentAuthentication);
 
-
+//courseFeePayment
+router.post("/courseFeePayment", services.courseFeePayment);
 
 module.exports = router;
