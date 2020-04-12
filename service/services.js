@@ -3,9 +3,8 @@
 // import { studentProfile, courseFee } from "../model/index";
 const studentProfile = require('../model/studentProfileSchema');
 const courseFee = require('../model/courseFeeSchema');
+const backFee = require('../model/backFeeSchema');
 const { log } = console;
-
-
 
 //signUp service
 exports.studentSignUp = (req, res) => {
@@ -35,7 +34,8 @@ exports.studentAuthentication = (req, res) => {
 exports.courseFeePayment = (req, res) => {
     const feeData = new courseFee(req.body);
     log(feeData);
-    feeData.studentId.push();
+
+    feeData.studentId.push(req.params.id);
 
     feeData.save()
         .then((courseFee) => {
@@ -45,4 +45,31 @@ exports.courseFeePayment = (req, res) => {
             res.status(400).send('course fee payment failed');
             log(err.message);
         });
+}
+
+// backFeePayment
+exports.backFeePayment = (req, res) => {
+    const feeData = new backFee(req.body);
+    log(feeData);
+
+    feeData.studentId.push(req.params.id);
+
+    feeData.save()
+        .then((backFee) => {
+            res.status(200).json({ 'fee': 'back fee payment successfully' });
+        })
+        .catch(err => {
+            res.status(400).send('back fee payment failed');
+            log(err.message);
+        });
+}
+//getCourseFeeYear
+exports.getCourseFeeYear = (req, res) => {
+    courseFee.find({ studentId: req.params.id }, (err, feeYear) => {
+
+        let year = feeYear.map(data => {
+            return data.feeInfo.year;
+        })
+        res.json(year);
+    })
 }

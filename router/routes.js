@@ -13,6 +13,11 @@ router.post('/studentSignUp', services.studentSignUp);
 router.get("/studentAuthentication/:email/:password", services.studentAuthentication);
 
 //courseFeePayment
-router.post("/courseFeePayment", services.courseFeePayment);
+router.post("/courseFeePayment/:id", services.courseFeePayment);
 
+//backFeePayment
+router.post("/backFeePayment/:id", services.backFeePayment);
+
+//getCourseFeeYear
+router.get("/getCourseFeeYear/:id", services.getCourseFeeYear);
 module.exports = router;
