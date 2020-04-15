@@ -49,11 +49,10 @@ exports.courseFeePayment = (req, res) => {
 
 // backFeePayment
 exports.backFeePayment = (req, res) => {
+
+
     const feeData = new backFee(req.body);
-    log(feeData);
-
     feeData.studentId.push(req.params.id);
-
     feeData.save()
         .then((backFee) => {
             res.status(200).json({ 'fee': 'back fee payment successfully' });
@@ -63,13 +62,29 @@ exports.backFeePayment = (req, res) => {
             log(err.message);
         });
 }
+
+
 //getCourseFeeYear
 exports.getCourseFeeYear = (req, res) => {
-    courseFee.find({ studentId: req.params.id }, (err, feeYear) => {
+    courseFee.find({ studentId: req.params.id }, (err, courseFee) => {
 
-        let year = feeYear.map(data => {
+        let year = courseFee.map(data => {
             return data.feeInfo.year;
         })
         res.json(year);
     })
 }
+
+// return no of attempt of backFee
+// exports.backFeeAttempt = (req, res) => {
+//     console.log(req.params.id);
+//     backFee.findById({ studentId: req.params.id }, { subject: req.params.subject }, (err, backFee) => {
+
+//         // let attempt = backFee.map(data => {
+
+//         //     return data.feeInfo.subject;
+//         // })
+//         // res.json(attempt);
+//         console.log(backFee);
+//     })
+// }

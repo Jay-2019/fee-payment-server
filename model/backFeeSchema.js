@@ -9,29 +9,27 @@ let backFeeSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'student'
     }],
-    feeInfo: {
-        attempt: {
-            type: Number,
-            default: 1,
-            required: true
-        },
-        subject: {
-            type: String,
-            required: true
-        },
-        backFee: {
-            type: Number,
-            required: true
-        },
-        lateFee: {
-            type: Number,
-            required: true
-        },
-        totalFee: {
-            type: Number,
-            required: true
-        }
+    subject: {
+        type: String,
+        required: true
     },
+    backFee: {
+        type: Number,
+        required: true
+    },
+    lateFee: {
+        type: Number,
+        required: true
+    },
+    totalFee: {
+        type: Number,
+        required: true
+    },
+    attempt: {
+        type: Number,
+        default: 1,
+        required: true
+    }
 
 });
 backFeeSchema.plugin(timestamps);
