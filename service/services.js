@@ -69,9 +69,23 @@ exports.getCourseFeeYear = (req, res) => {
     courseFee.find({ studentId: req.params.id }, (err, courseFee) => {
 
         let year = courseFee.map(data => {
-            return data.feeInfo.year;
+            return data.year;
         })
         res.json(year);
+    })
+}
+
+//receiptCourseFee
+exports.receiptCourseFee = (req, res) => {
+    courseFee.find({ studentId: req.params.id }, (err, courseFee) => {
+        err ? console.log(err.message) : res.json(courseFee);
+    })
+}
+
+//receiptCourseFee
+exports.receiptBackFee = (req, res) => {
+    backFee.find({ studentId: req.params.id }, (err, backFee) => {
+        err ? console.log(err.message) : res.json(backFee);
     })
 }
 

@@ -21,7 +21,12 @@ router.post("/backFeePayment/:id", services.backFeePayment);
 //getCourseFeeYear
 router.get("/getCourseFeeYear/:id", services.getCourseFeeYear);
 
+//receiptCourseFee
+router.get("/receiptCourseFee/:id", services.receiptCourseFee);
+
 //get  backFeeAttempt
+router.get("/receiptBackFee/:id", services.receiptBackFee);
+
 // router.get("/backFeeAttempt/:id/:subject", services.backFeeAttempt);
 
 module.exports = router;
