@@ -1,3 +1,4 @@
 import studentProfile from "./studentProfileSchema";
 import courseFee from './courseFeeSchema';
-export { studentProfile, courseFee }
+import courseFeeDueDateSchema from './courseFeeDueDateSchema';
+export { studentProfile, courseFee, courseFeeDueDateSchema };

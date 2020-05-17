@@ -6,6 +6,17 @@ const router = express.Router();
 // const controllers = require('../controller/controllers');
 const services = require('../service/services')
 
+//faculty Admin Routes
+// set(update) courseFee Due Date
+router.post('/updateCourseFeeDueDate/:id', services.updateCourseFeeDueDate);
+// get courseFee Due Date
+router.get('/getCourseFeeDueDate/:id', services.getCourseFeeDueDate);
+
+// set(update) courseFeeType
+router.post('/updateCourseFeeType/:id', services.updateCourseFeeType);
+// // get courseFeeType
+// router.get('/getCourseFeeType/:id', services.getCourseFeeType);
+
 //signUp route
 router.post('/studentSignUp', services.studentSignUp);
 

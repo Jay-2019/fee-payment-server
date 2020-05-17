@@ -4,7 +4,41 @@
 const studentProfile = require('../model/studentProfileSchema');
 const courseFee = require('../model/courseFeeSchema');
 const backFee = require('../model/backFeeSchema');
+const courseFeeDueDate = require('../model/courseFeeDueDateSchema');
+const courseFeeType = require("../model/courseFeeTypeSchema");
 const { log } = console;
+
+
+//faculty Admin Routes
+// set(update) courseFee Due Date
+exports.updateCourseFeeDueDate = (req, res) => {
+    let newDate = new courseFeeDueDate(req.body);
+
+    courseFeeDueDate.findByIdAndUpdate(req.params.id, {
+        firstYear: newDate.firstYear,
+        secondYear: newDate.secondYear,
+        thirdYear: newDate.thirdYear,
+        fourthYear: newDate.fourthYear
+    }, (err, courseFeeDueDate) => {
+        err ? log(err.message) : res.json({ 'updateCourseFeeDueDate': ' update successfully' });
+    });
+
+}
+// get courseFee Due Date
+exports.getCourseFeeDueDate = (req, res) => {
+    // log(req.params.id);
+    courseFeeDueDate.findById(req.params.id, (err, courseFeeDueDate) => {
+        err ? log(err.message) : res.json(courseFeeDueDate);
+    });
+}
+
+// set(update) courseFeeType
+exports.updateCourseFeeType = (req, res) => {
+    courseFeeType.findByIdAndUpdate(req.params.id, req.body, (err, courseFeeType) => {
+        err ? log(err.message) : res.json({ 'updateCourseFeeType': ' update successfully' });
+    });
+};
+
 
 //signUp service
 exports.studentSignUp = (req, res) => {
