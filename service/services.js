@@ -7,6 +7,7 @@ const backFee = require('../model/backFeeSchema');
 const courseFeeDueDate = require('../model/courseFeeDueDateSchema');
 const courseFeeType = require("../model/courseFeeTypeSchema");
 const backFeeType = require("../model/backFeeTypeSchema");
+const backFeeDueDate = require("../model/backFeeDueDateSchema");
 const { log } = console;
 
 
@@ -54,6 +55,19 @@ exports.updateBackFeeType = (req, res) => {
     });
 }
 
+
+//set(update) backFee-Due-Date
+exports.updateBackFeeDueDate = (req, res) => {
+    const newDate = backFeeDueDate(req.body);
+    backFeeDueDate.findByIdAndUpdate(req.params.id, {
+        firstYear: newDate.firstYear,
+        secondYear: newDate.secondYear,
+        thirdYear: newDate.thirdYear,
+        fourthYear: newDate.fourthYear
+    }, (err, backFeeDueDate) => {
+        err ? console.log(err.message) : res.status(200).json({ "BackFeeDueDate": "update successfully" });
+    });
+}
 
 //signUp service
 exports.studentSignUp = (req, res) => {

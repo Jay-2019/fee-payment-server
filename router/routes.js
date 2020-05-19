@@ -7,18 +7,22 @@ const router = express.Router();
 const services = require('../service/services')
 
 //faculty Admin Routes
-// set(update) courseFee Due Date
+// set(update) courseFee-Due-Date
 router.post('/updateCourseFeeDueDate/:id', services.updateCourseFeeDueDate);
-// get courseFee Due Date
+// get courseFee-Due-Date
 router.get('/getCourseFeeDueDate/:id', services.getCourseFeeDueDate);
 
-// set(update) courseFeeType
+// set(update) courseFee-Type
 router.post('/updateCourseFeeType/:id', services.updateCourseFeeType);
 // // get courseFeeType
 // router.get('/getCourseFeeType/:id', services.getCourseFeeType);
 
-//set(update) backFeeType
+//set(update) backFee-Type
 router.post('/updateBackFeeType/:id', services.updateBackFeeType);
+
+
+//set(update) backFee-Due-Date
+router.post('/updateBackFeeDueDate/:id', services.updateBackFeeDueDate);
 
 //signUp route
 router.post('/studentSignUp', services.studentSignUp);
