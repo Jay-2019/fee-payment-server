@@ -40,6 +40,12 @@ exports.updateCourseFeeType = (req, res) => {
         err ? log(err.message) : res.json({ 'updateCourseFeeType': ' update successfully' });
     });
 };
+// get courseFeeType
+exports.getCourseFeeType = (req, res) => {
+    courseFeeType.findById(req.params.id, (err, courseFeeType) => {
+        err ? console.log(err.message) : res.status(200).json(courseFeeType);
+    });
+}
 
 //set(update) backFeeType
 exports.updateBackFeeType = (req, res) => {

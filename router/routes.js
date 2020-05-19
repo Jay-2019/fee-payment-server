@@ -14,8 +14,8 @@ router.get('/getCourseFeeDueDate/:id', services.getCourseFeeDueDate);
 
 // set(update) courseFee-Type
 router.post('/updateCourseFeeType/:id', services.updateCourseFeeType);
-// // get courseFeeType
-// router.get('/getCourseFeeType/:id', services.getCourseFeeType);
+// get courseFeeType
+router.get('/getCourseFeeType/:id', services.getCourseFeeType);
 
 //set(update) backFee-Type
 router.post('/updateBackFeeType/:id', services.updateBackFeeType);
