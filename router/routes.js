@@ -17,6 +17,9 @@ router.post('/updateCourseFeeType/:id', services.updateCourseFeeType);
 // // get courseFeeType
 // router.get('/getCourseFeeType/:id', services.getCourseFeeType);
 
+//set(update) backFeeType
+router.post('/updateBackFeeType/:id', services.updateBackFeeType);
+
 //signUp route
 router.post('/studentSignUp', services.studentSignUp);
 

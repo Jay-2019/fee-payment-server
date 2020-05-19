@@ -6,6 +6,7 @@ const courseFee = require('../model/courseFeeSchema');
 const backFee = require('../model/backFeeSchema');
 const courseFeeDueDate = require('../model/courseFeeDueDateSchema');
 const courseFeeType = require("../model/courseFeeTypeSchema");
+const backFeeType = require("../model/backFeeTypeSchema");
 const { log } = console;
 
 
@@ -38,6 +39,20 @@ exports.updateCourseFeeType = (req, res) => {
         err ? log(err.message) : res.json({ 'updateCourseFeeType': ' update successfully' });
     });
 };
+
+//set(update) backFeeType
+exports.updateBackFeeType = (req, res) => {
+    const newFee = backFeeType(req.body);
+    backFeeType.findByIdAndUpdate(req.params.id, {
+        totalFee: newFee.totalFee,
+        examinationFormFee: newFee.examinationFormFee,
+        backPaper: newFee.backPaper,
+        delayFee: newFee.delayFee,
+        otherCharges: newFee.otherCharges
+    }, (err, backFeeType) => {
+        err ? res.status(404).send("id not found") : res.status(200).json(backFeeType);
+    });
+}
 
 
 //signUp service
@@ -123,16 +138,3 @@ exports.receiptBackFee = (req, res) => {
     })
 }
 
-// return no of attempt of backFee
-// exports.backFeeAttempt = (req, res) => {
-//     console.log(req.params.id);
-//     backFee.findById({ studentId: req.params.id }, { subject: req.params.subject }, (err, backFee) => {
-
-//         // let attempt = backFee.map(data => {
-
-//         //     return data.feeInfo.subject;
-//         // })
-//         // res.json(attempt);
-//         console.log(backFee);
-//     })
-// }
