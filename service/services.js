@@ -8,10 +8,22 @@ const courseFeeDueDate = require('../model/courseFeeDueDateSchema');
 const courseFeeType = require("../model/courseFeeTypeSchema");
 const backFeeType = require("../model/backFeeTypeSchema");
 const backFeeDueDate = require("../model/backFeeDueDateSchema");
+const subject = require("../model/subjectSchema");
 const { log } = console;
 
 
 //faculty Admin Routes
+// create subject
+exports.createSubject = (req, res) => {
+    const newSubject = new subject(req.body);
+    newSubject.save()
+        .then(newSubject => {
+            res.status(200).json({ "newSubject": "Created Successfully" });
+        })
+        .catch(error => {
+            res.status(400).send('failed');
+        });
+}
 // set(update) courseFee Due Date
 exports.updateCourseFeeDueDate = (req, res) => {
     let newDate = new courseFeeDueDate(req.body);
@@ -60,18 +72,25 @@ exports.updateBackFeeType = (req, res) => {
         err ? res.status(404).send("id not found") : res.status(200).json(backFeeType);
     });
 }
+//get backFeeType
+exports.getBackFeeType = (req, res) => {
+    backFeeType.findById(req.params.id, (err, backFeeType) => {
+        err ? log(err.message) : res.status(200).json(backFeeType);
+    });
+}
 
 
 //set(update) backFee-Due-Date
 exports.updateBackFeeDueDate = (req, res) => {
     const newDate = backFeeDueDate(req.body);
-    backFeeDueDate.findByIdAndUpdate(req.params.id, {
-        firstYear: newDate.firstYear,
-        secondYear: newDate.secondYear,
-        thirdYear: newDate.thirdYear,
-        fourthYear: newDate.fourthYear
-    }, (err, backFeeDueDate) => {
+    backFeeDueDate.findByIdAndUpdate(req.params.id, req.body, (err, backFeeDueDate) => {
         err ? console.log(err.message) : res.status(200).json({ "BackFeeDueDate": "update successfully" });
+    });
+}
+//get BackFee-DueDate
+exports.getBackFeeDueDate = (req, res) => {
+    backFeeDueDate.findById(req.params.id, (err, backFeeDueDate) => {
+        err ? log(err.message) : res.status(200).json(backFeeDueDate);
     });
 }
 
@@ -103,7 +122,7 @@ exports.studentAuthentication = (req, res) => {
 exports.courseFeePayment = (req, res) => {
     const feeData = new courseFee(req.body);
     log(feeData);
-
+    console.log(req.params.id);
     feeData.studentId.push(req.params.id);
 
     feeData.save()
