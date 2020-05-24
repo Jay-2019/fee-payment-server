@@ -1,4 +1,4 @@
-import studentProfile from "./studentProfileSchema";
-import courseFee from './courseFeeSchema';
-import courseFeeDueDateSchema from './courseFeeDueDateSchema';
-export { studentProfile, courseFee, courseFeeDueDateSchema };
+// import studentProfile from "./studentProfileSchema";
+// import courseFee from './courseFeeSchema';
+// import courseFeeDueDate from './courseFeeDueDateSchema';
+// export { studentProfile, courseFee, courseFeeDueDate };

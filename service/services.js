@@ -24,6 +24,16 @@ exports.createSubject = (req, res) => {
             res.status(400).send('failed');
         });
 }
+//get Subjects
+exports.getSubject = (req, res) => {
+    const { semester, branch } = req.params;
+    subject.find({ semester: semester, branch: branch }, (err, subject) => {
+        let subjectName=subject.map(data=>data.subjectName);
+
+        err ? log(err.message) : res.status(200).json(subjectName);
+    })
+}
+
 // set(update) courseFee Due Date
 exports.updateCourseFeeDueDate = (req, res) => {
     let newDate = new courseFeeDueDate(req.body);
@@ -40,7 +50,6 @@ exports.updateCourseFeeDueDate = (req, res) => {
 }
 // get courseFee Due Date
 exports.getCourseFeeDueDate = (req, res) => {
-    // log(req.params.id);
     courseFeeDueDate.findById(req.params.id, (err, courseFeeDueDate) => {
         err ? log(err.message) : res.json(courseFeeDueDate);
     });

@@ -9,6 +9,8 @@ const services = require('../service/services')
 //faculty Admin Routes
 //set, Create-New-Subject 
 router.post('/createSubject', services.createSubject);
+// get SubjectName
+router.get('/getSubject/:semester/:branch', services.getSubject);
 
 // set(update) courseFee-Due-Date
 router.post('/updateCourseFeeDueDate/:id', services.updateCourseFeeDueDate);
