@@ -9,22 +9,54 @@ let courseFeeSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'student'
     }],
-    year: {
-        type: String,
-        required: true
+    feeInfo: {
+        year: {
+            type: String,
+            required: true
+        },
+        courseFee: {
+            type: Number,
+            required: true
+        },
+        delayFee: {
+            type: Number,
+            required: true
+        },
+        totalFee: {
+            type: Number,
+            required: true
+        }
     },
-    courseFee: {
-        type: Number,
-        required: true
+    studentInfo: {
+        firstName: {
+            type: String,
+            uppercase: true,
+            required: true
+        },
+        lastName: {
+            type: String,
+            uppercase: true,
+            required: true
+        },
+        fatherName: {
+            type: String,
+            uppercase: true,
+            required: true
+        },
+        admissionSession: {
+            type: String,
+            required: true
+        },
+        branch: {
+            type: String,
+            required: true
+        }
     },
-    lateFee: {
-        type: Number,
-        required: true
-    },
-    totalFee: {
-        type: Number,
-        required: true
+    courseFeeType: {
+        type: Object,
+        require: true
     }
+
 });
 courseFeeSchema.plugin(timestamps);
 module.exports = mongoose.model('courseFee', courseFeeSchema, 'courseFee');

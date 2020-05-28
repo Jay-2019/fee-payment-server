@@ -16,6 +16,11 @@ let studentProfileSchema = new Schema({
         uppercase: true,
         required: true
     },
+    fatherName: {
+        type: String,
+        uppercase: true,
+        required: true
+    },
     email: {
         type: String,
         unique: true,
@@ -33,8 +38,12 @@ let studentProfileSchema = new Schema({
         type: String,
         required: true
     },
+    admissionSession: {
+        type: String,
+        required: true
+    },
     semester: {
-        type: Number,
+        type: String,
         required: true
     },
     password: {
