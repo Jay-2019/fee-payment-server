@@ -28,8 +28,7 @@ exports.createSubject = (req, res) => {
 exports.getSubject = (req, res) => {
     const { semester, branch } = req.params;
     subject.find({ semester: semester, branch: branch }, (err, subject) => {
-        let subjectName=subject.map(data=>data.subjectName);
-
+        let subjectName = subject.map(data => data.subjectName);
         err ? log(err.message) : res.status(200).json(subjectName);
     })
 }
@@ -127,6 +126,13 @@ exports.studentAuthentication = (req, res) => {
     });
 };
 
+//get Student-Profile
+exports.getStudentProfile = (req, res) => {
+    studentProfile.findById(req.params.id, (err, studentProfile) => {
+        err ? res.status(404).json(err.message) : res.status(200).json(studentProfile);
+    })
+}
+
 // courseFeePayment
 exports.courseFeePayment = (req, res) => {
     const feeData = new courseFee(req.body);
@@ -146,8 +152,6 @@ exports.courseFeePayment = (req, res) => {
 
 // backFeePayment
 exports.backFeePayment = (req, res) => {
-
-
     const feeData = new backFee(req.body);
     feeData.studentId.push(req.params.id);
     feeData.save()

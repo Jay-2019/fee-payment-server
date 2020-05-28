@@ -38,6 +38,9 @@ router.post('/studentSignUp', services.studentSignUp);
 //Authentication
 router.get("/studentAuthentication/:email/:password", services.studentAuthentication);
 
+// get Student-Profile
+router.get("/getStudentProfile/:id", services.getStudentProfile);
+
 //courseFeePayment
 router.post("/courseFeePayment/:id", services.courseFeePayment);
 
