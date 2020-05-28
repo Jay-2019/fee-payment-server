@@ -168,9 +168,8 @@ exports.backFeePayment = (req, res) => {
 //getCourseFeeYear
 exports.getCourseFeeYear = (req, res) => {
     courseFee.find({ studentId: req.params.id }, (err, courseFee) => {
-
         let year = courseFee.map(data => {
-            return data.year;
+            return data.feeInfo.year;
         })
         res.json(year);
     })
