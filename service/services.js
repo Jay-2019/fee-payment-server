@@ -135,8 +135,6 @@ exports.getStudentProfile = (req, res) => {
 
 // courseFeePayment
 exports.courseFeePayment = (req, res) => {
-    const { feeInfo, studentInfo, courseFeeType } = req.body;
-
     const feeData = new courseFee(req.body);
     feeData.studentId.push(req.params.id);
 
