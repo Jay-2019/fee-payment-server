@@ -24,6 +24,7 @@ exports.createSubject = (req, res) => {
             res.status(400).send('failed');
         });
 }
+
 //get Subjects
 exports.getSubject = (req, res) => {
     const { semester, branch } = req.params;
@@ -32,7 +33,6 @@ exports.getSubject = (req, res) => {
         err ? log(err.message) : res.status(200).json(subjectName);
     })
 }
-
 // set(update) courseFee Due Date
 exports.updateCourseFeeDueDate = (req, res) => {
     let newDate = new courseFeeDueDate(req.body);
