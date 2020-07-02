@@ -4,9 +4,26 @@
 const express = require('express');
 const router = express.Router();
 // const controllers = require('../controller/controllers');
-const services = require('../service/services')
+const services = require('../service/services');
 
-//faculty Admin Routes
+// Create-New-Branch 
+router.post('/createBranch', services.createBranch);
+
+// Create-New-Branch 
+router.get('/getBranch', services.getBranch);
+
+// resetAdminPassword
+router.post("/resetAdminPassword", services.resetAdminPassword);
+
+//Admin Authentication
+router.get("/adminAuthentication/:email/:password", services.adminAuthentication);
+
+//get particular feeDetails of courseFee 
+router.get('/courseFeeData/:id', services.getCourseFeeData);
+
+//get particular feeDetails of courseFee 
+router.get('/backFeeData/:id', services.getBackFeeData);
+
 //set, Create-New-Subject 
 router.post('/createSubject', services.createSubject);
 // get SubjectName
@@ -35,7 +52,7 @@ router.get('/getBackFeeDueDate/:id', services.getBackFeeDueDate);
 //signUp route
 router.post('/studentSignUp', services.studentSignUp);
 
-//Authentication
+//Student Authentication
 router.get("/studentAuthentication/:email/:password", services.studentAuthentication);
 
 // get Student-Profile
@@ -49,6 +66,9 @@ router.post("/backFeePayment/:id", services.backFeePayment);
 
 //getCourseFeeYear
 router.get("/getCourseFeeYear/:id", services.getCourseFeeYear);
+
+//getCourseFeeSemester
+router.get("/getCourseFeeSemester/:id", services.getCourseFeeSemester);
 
 //receiptCourseFee
 router.get("/receiptCourseFee/:id", services.receiptCourseFee);
