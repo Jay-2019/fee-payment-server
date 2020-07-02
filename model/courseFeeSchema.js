@@ -14,6 +14,10 @@ let courseFeeSchema = new Schema({
             type: String,
             required: true
         },
+        feeMode: {
+            type: String,
+            required: true
+        },
         courseFee: {
             type: Number,
             required: true

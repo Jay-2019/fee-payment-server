@@ -22,6 +22,10 @@ let backFeeSchema = new Schema({
             type: String,
             required: true
         },
+        examMode: {
+            type: Array,
+            required: true
+        },
         backFee: {
             type: Number,
             required: true

@@ -26,7 +26,7 @@ let studentProfileSchema = new Schema({
         unique: true,
         required: true
     },
-    age: {
+    rollNumber: {
         type: Number,
         required: true
     },
@@ -42,7 +42,7 @@ let studentProfileSchema = new Schema({
         type: String,
         required: true
     },
-    semester: {
+    enrollmentNumber: {
         type: String,
         required: true
     },
