@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "scripts": {
+"scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
@@ -25,5 +25,8 @@
     "express": "^4.17.1",
     "mongoose": "^5.9.5",
     "mongoose-timestamp": "^0.6.0"
+  },
+  "engines": {
+    "node": "12.18.0"
   }
 }
