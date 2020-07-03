@@ -4,10 +4,9 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const routes = require('./router/routes');
-const port = 4000;
+const port = process.env.PORT || 4000;
 const server = express();
-
-
+// const path = require('path');
 
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: false }));
@@ -19,7 +18,7 @@ server.use(cookieParser());
 
     try {
         //mongoDB Connection
-        await mongoose.connect('mongodb://127.0.0.1:27017/feePaymentDB', {
+        await mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/feePaymentDB', {
             useUnifiedTopology: true,
             useNewUrlParser: true,
             useCreateIndex: true,
@@ -37,9 +36,14 @@ connection.once('open', () => {
     console.log("MongoDB database connection established successfully");
 })
 
-// mongoose.connection.on('error', err => {
-//     console.error(err);
-// });
-
 server.use('/feePaymentDB', routes);
+
+// if (process.env.NODE_ENV === 'production') {
+//     app.use(express.static( 'client/build' ));
+
+//     app.get('*', (req, res) => {
+//         res.sendFile(path.join(__dirname, 'client', 'build', 'index.html')); // relative path
+//     });
+// }
+
 server.listen(port, () => console.log(`!!!Express Server is Running on port => ${port}`));
