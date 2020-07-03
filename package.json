@@ -8,9 +8,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Jay-2019/fee-payment-server.git"
+    "url": "https://github.com/Jay-2019/fee-payment-server.git"
   },
-  "author": "",
+  "author": "Jay Prakash Maurya <jay.mauryavanshi2014@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Jay-2019/fee-payment-server/issues"
