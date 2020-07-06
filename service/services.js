@@ -59,7 +59,8 @@ exports.resetAdminPassword = (req, res) => {
 exports.adminAuthentication = (req, res) => {
     const { email, password } = req.params;
     adminAuth.findOne({ email: email, confirmPassword: password }, (err, admin) => {
-        err ? log(err.message) : res.json(admin._id);
+        log(admin)
+        err ? log(err.message) : res.json(admin);
     });
 };
 
