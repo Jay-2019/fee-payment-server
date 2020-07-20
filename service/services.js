@@ -1,4 +1,5 @@
 //Services - The services contains the database queries and returning objects or throwing errors.
+
 const mongoose = require('mongoose');
 // import { studentProfile, courseFee } from "../model/index";
 const studentProfile = require('../model/studentProfileSchema');
@@ -23,21 +24,21 @@ exports.getBranch = (req, res) => {
             branchName = [...branchName, data.branchName]
         };
 
-        err ? res.status(404).send("Not Found") : res.status(200).json(branchName);
+        err ? log(err.message) : res.status(200).json([...new Set(branchName)]);
     })
-}
+};
 
-// create subject
+// create branch
 exports.createBranch = (req, res) => {
     const newBranch = new branch(req.body);
     newBranch.save()
         .then(newBranch => {
-            res.status(200).send({ "newBranch": "Created Successfully" });
+            res.status(200).send(newBranch);
         })
         .catch(error => {
-            res.status(400).send('failed');
+            log(error.message);
         });
-}
+};
 
 // Reset Password(Admin) 
 exports.resetAdminPassword = (req, res) => {
@@ -51,7 +52,7 @@ exports.resetAdminPassword = (req, res) => {
             password: createPassword,
             confirmPassword: confirmPassword
         }, (err, admin) => {
-            err ? log(err.message) : res.status(200).send("Password Reset Successfully");
+            err ? log(err.message) : res.status(200).json(admin);
         });
 };
 
@@ -59,7 +60,6 @@ exports.resetAdminPassword = (req, res) => {
 exports.adminAuthentication = (req, res) => {
     const { email, password } = req.params;
     adminAuth.findOne({ email: email, confirmPassword: password }, (err, admin) => {
-        log(admin)
         err ? log(err.message) : res.json(admin);
     });
 };
@@ -83,21 +83,22 @@ exports.createSubject = (req, res) => {
     const newSubject = new subject(req.body);
     newSubject.save()
         .then(newSubject => {
-            res.status(200).json({ "newSubject": "Created Successfully" });
+            res.status(200).json(newSubject);
         })
         .catch(error => {
-            res.status(400).send('failed');
+            log(error.message);
         });
-}
+};
 
 //get Subjects
 exports.getSubject = (req, res) => {
     const { semester, branch } = req.params;
     subject.find({ semester: semester, branch: branch }, (err, subject) => {
         let subjectName = subject.map(data => data.subjectName);
-        err ? log(err.message) : res.status(200).json(subjectName);
+        err ? log(err.message) : res.status(200).json([...new Set(subjectName)]);
     })
-}
+};
+
 // set(update) courseFee Due Date
 exports.updateCourseFeeDueDate = (req, res) => {
     let newDate = new courseFeeDueDate(req.body);
@@ -108,27 +109,29 @@ exports.updateCourseFeeDueDate = (req, res) => {
         thirdYear: newDate.thirdYear,
         fourthYear: newDate.fourthYear
     }, (err, courseFeeDueDate) => {
-        err ? log(err.message) : res.json({ 'updateCourseFeeDueDate': ' update successfully' });
+        err ? log(err.message) : res.status(200).json(courseFeeDueDate);
     });
 
-}
+};
+
 // get courseFee Due Date
 exports.getCourseFeeDueDate = (req, res) => {
     courseFeeDueDate.findById(req.params.id, (err, courseFeeDueDate) => {
         err ? log(err.message) : res.json(courseFeeDueDate);
     });
-}
+};
 
 // set(update) courseFeeType
 exports.updateCourseFeeType = (req, res) => {
     courseFeeType.findByIdAndUpdate(req.params.id, req.body, (err, courseFeeType) => {
-        err ? log(err.message) : res.json({ 'updateCourseFeeType': ' update successfully' });
+        err ? log(err.message) : res.json(courseFeeType);
     });
 };
+
 // get courseFeeType
 exports.getCourseFeeType = (req, res) => {
     courseFeeType.findById(req.params.id, (err, courseFeeType) => {
-        err ? console.log(err.message) : res.status(200).json(courseFeeType);
+        err ? log(err.message) : res.status(200).json(courseFeeType);
     });
 };
 
@@ -142,24 +145,26 @@ exports.updateBackFeeType = (req, res) => {
         delayFee: newFee.delayFee,
         otherCharges: newFee.otherCharges
     }, (err, backFeeType) => {
-        err ? res.status(404).send("id not found") : res.status(200).json(backFeeType);
+        err ? log(err.message) : res.status(200).json(backFeeType);
     });
 };
+
 //get backFeeType
 exports.getBackFeeType = (req, res) => {
     backFeeType.findById(req.params.id, (err, backFeeType) => {
         err ? log(err.message) : res.status(200).json(backFeeType);
     });
-}
+};
 
 
 //set(update) backFee-Due-Date
 exports.updateBackFeeDueDate = (req, res) => {
     const newDate = backFeeDueDate(req.body);
     backFeeDueDate.findByIdAndUpdate(req.params.id, req.body, (err, backFeeDueDate) => {
-        err ? console.log(err.message) : res.status(200).json({ "BackFeeDueDate": "update successfully" });
+        err ? log(err.message) : res.status(200).json(backFeeDueDate);
     });
 };
+
 //get BackFee-DueDate
 exports.getBackFeeDueDate = (req, res) => {
     backFeeDueDate.findById(req.params.id, (err, backFeeDueDate) => {
@@ -173,10 +178,10 @@ exports.studentSignUp = (req, res) => {
 
     newStudent.save()
         .then(studentSignUp => {
-            res.status(200).json({ 'signUp': 'signUp successfully' });
+            res.status(200).json(studentSignUp);
         })
         .catch(err => {
-            res.status(400).send('signUp failed');
+
             log(err.message);
         });
 };
@@ -192,7 +197,7 @@ exports.studentAuthentication = (req, res) => {
 //get Student-Profile
 exports.getStudentProfile = (req, res) => {
     studentProfile.findById(req.params.id, (err, studentProfile) => {
-        err ? res.status(404).json(err.message) : res.status(200).json(studentProfile);
+        err ? log(err.message) : res.status(200).json(studentProfile);
     })
 };
 
@@ -203,10 +208,9 @@ exports.courseFeePayment = (req, res) => {
 
     feeData.save()
         .then((courseFee) => {
-            res.status(200).json({ 'fee': 'course fee payment successfully' });
+            res.status(200).json(courseFee);
         })
         .catch(err => {
-            res.status(400).send('course fee payment failed');
             log(err.message);
         });
 };
@@ -217,10 +221,9 @@ exports.backFeePayment = (req, res) => {
     feeData.studentId.push(req.params.id);
     feeData.save()
         .then((backFee) => {
-            res.status(200).json({ 'fee': 'back fee payment successfully' });
+            res.status(200).json(backFee);
         })
         .catch(err => {
-            res.status(400).send('back fee payment failed');
             log(err.message);
         });
 };
@@ -233,7 +236,7 @@ exports.getCourseFeeYear = (req, res) => {
             if (data.feeInfo.feeMode === "Year Wise")
                 return data.feeInfo.year;
         })
-        res.json(year);
+        err ? log(err) : res.json(year);
     })
 };
 
@@ -263,7 +266,7 @@ exports.getCourseFeeSemester = (req, res) => {
             const semester = data.map(data => {
                 if (data.count === 2) return data._id.year
             })
-            err ? console.error(err) : res.status(200).json(semester);
+            err ? error(err) : res.status(200).json(semester);
         }
         )
 };
@@ -272,16 +275,14 @@ exports.getCourseFeeSemester = (req, res) => {
 //receiptCourseFee
 exports.receiptCourseFee = (req, res) => {
     courseFee.find({ studentId: req.params.id }).sort({ createdAt: -1 }).exec((err, courseFee) => {
-        err ? console.log(err.message) : res.json(courseFee);
+        err ? log(err.message) : res.json(courseFee);
     });
 };
 
 //receiptCourseFee
 exports.receiptBackFee = (req, res) => {
     backFee.find({ studentId: req.params.id }).sort({ createdAt: -1 }).exec((err, backFee) => {
-        err ? console.log(err.message) : res.json(backFee);
+        err ? log(err.message) : res.json(backFee);
     });
 
-
 };
-

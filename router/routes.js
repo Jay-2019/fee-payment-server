@@ -26,26 +26,31 @@ router.get('/backFeeData/:id', services.getBackFeeData);
 
 //set, Create-New-Subject 
 router.post('/createSubject', services.createSubject);
+
 // get SubjectName
 router.get('/getSubject/:semester/:branch', services.getSubject);
 
 // set(update) courseFee-Due-Date
 router.post('/updateCourseFeeDueDate/:id', services.updateCourseFeeDueDate);
+
 // get courseFee-Due-Date
 router.get('/getCourseFeeDueDate/:id', services.getCourseFeeDueDate);
 
 // set(update) courseFee-Type
 router.post('/updateCourseFeeType/:id', services.updateCourseFeeType);
+
 // get courseFeeType
 router.get('/getCourseFeeType/:id', services.getCourseFeeType);
 
 //set(update) backFee-Type
 router.post('/updateBackFeeType/:id', services.updateBackFeeType);
+
 // get backFeeType
 router.get('/getBackFeeType/:id', services.getBackFeeType);
 
 //set(update) backFee-Due-Date
 router.post('/updateBackFeeDueDate/:id', services.updateBackFeeDueDate);
+
 //get BackFee-DueDate
 router.get('/getBackFeeDueDate/:id', services.getBackFeeDueDate);
 
