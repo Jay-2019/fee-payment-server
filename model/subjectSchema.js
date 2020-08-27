@@ -10,6 +10,10 @@ let subjectSchema = new Schema({
         type: String,
         required: true
     },
+    subjectType: {
+        type: String,
+        required: true
+    },
     branch: {
         type: String,
         required: true

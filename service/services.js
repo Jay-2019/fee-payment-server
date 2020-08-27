@@ -15,7 +15,7 @@ const branch = require("../model/branchSchema");
 const { log } = console;
 
 
-// get branch
+// get array of branch name
 exports.getBranch = (req, res) => {
     branch.find((err, branchList) => {
 
@@ -28,21 +28,106 @@ exports.getBranch = (req, res) => {
     })
 };
 
+// Get List of Branch
+exports.listBranch = (req, res) => {
+    adminAuth.exists({ _id: req.params.adminAuthToken }, (err, result) => {
+        if (err) {
+            res.json(err);
+        };
+
+        if (result) {
+            branch.find((err, branchList) => {
+
+                err ? log(err.message) : res.status(200).json(branchList);
+            });
+        };
+    });
+};
+
+// Get Particular Branch
+exports.getParticularBranch = (req, res) => {
+    const { branchId, adminAuthToken } = req.params;
+    adminAuth.exists({ _id: adminAuthToken }, (err, result) => {
+        if (err) {
+            res.json(err);
+        };
+
+        if (result) {
+
+            branch.findById(branchId, (err, branchData) => {
+
+                err ? log(err.message) : res.status(200).json(branchData.branchName);
+            });
+        };
+    });
+};
+
+// Update Branch
+exports.updateTargetBranch = (req, res) => {
+    const { branchId, adminAuthToken } = req.params;
+
+    adminAuth.exists({ _id: adminAuthToken }, (err, result) => {
+        if (err) {
+            res.json(err);
+        };
+
+        if (result) {
+            branch.findByIdAndUpdate(branchId, req.body, (err, branchData) => {
+                err ? log(err.message) : res.status(200).json("branch updated successfully");
+            });
+        };
+    });
+};
+
+// delete Branch
+exports.deleteBranch = (req, res) => {
+    const { branchId, adminAuthToken } = req.params;
+
+    adminAuth.exists({ _id: adminAuthToken }, (err, result) => {
+        if (err) {
+            res.json(err);
+        };
+
+        if (result) {
+            branch.findByIdAndRemove(branchId, req.body, (err, branchData) => {
+                err ? log(err.message) : res.status(200).json("branch deleted successfully");
+            });
+        };
+    });
+};
+
 // create branch
 exports.createBranch = (req, res) => {
+    const { adminAuthToken } = req.params
     const newBranch = new branch(req.body);
-    newBranch.save()
-        .then(newBranch => {
-            res.status(200).send(newBranch);
-        })
-        .catch(error => {
-            log(error.message);
-        });
+
+    adminAuth.exists({ _id: adminAuthToken }, (err, result) => {
+        if (err) {
+            res.json(err);
+        };
+
+        if (result) {
+            newBranch.save()
+                .then(newBranch => {
+                    res.status(200).send("new branch successfully created");
+                })
+                .catch(error => {
+                    log(error.message);
+                });
+        };
+    });
 };
 
 // Reset Password(Admin) 
 exports.resetAdminPassword = (req, res) => {
-    const { verifiedEmail, createPassword, confirmPassword, securityQuestion, securityAnswer } = req.body;
+    const {
+        verifiedEmail,
+        createPassword,
+        confirmPassword,
+        securityQuestion,
+        securityAnswer
+    } = req.body;
+
     adminAuth.findOneAndUpdate({
         email: verifiedEmail,
         securityQuestion: securityQuestion,
@@ -59,7 +144,12 @@ exports.resetAdminPassword = (req, res) => {
 // Admin Authentication
 exports.adminAuthentication = (req, res) => {
     const { email, password } = req.params;
-    adminAuth.findOne({ email: email, confirmPassword: password }, (err, admin) => {
+
+    adminAuth.findOne({
+        email: email,
+        confirmPassword: password
+    }, (err, admin) => {
+
         err ? log(err.message) : res.json(admin);
     });
 };
@@ -90,7 +180,58 @@ exports.createSubject = (req, res) => {
         });
 };
 
-//get Subjects
+// get Particular Subject
+exports.getTargetSubject = (req, res) => {
+    const { subjectId, adminAuthToken } = req.params;
+
+    adminAuth.exists({ _id: adminAuthToken }, (err, result) => {
+        if (err) {
+            res.json(err);
+        };
+
+        if (result) {
+            subject.findById(subjectId, (err, subject) => {
+                err ? log(err.message) : res.status(200).json(subject);
+            })
+        }
+    })
+};
+
+// Update Target Subject
+exports.updateTargetSubject = (req, res) => {
+    const { subjectId, adminAuthToken } = req.params;
+
+    adminAuth.exists({ _id: adminAuthToken }, (err, result) => {
+        if (err) {
+            res.json(err);
+        };
+
+        if (result) {
+            subject.findByIdAndUpdate(subjectId, req.body, (err, subject) => {
+                err ? log(err.message) : res.status(200).json("Subject Updated Successfully");
+            })
+        }
+    })
+};
+
+// Delete Target Subject
+exports.deleteTargetSubject = (req, res) => {
+    const { subjectId, adminAuthToken } = req.params;
+
+    adminAuth.exists({ _id: adminAuthToken }, (err, result) => {
+        if (err) {
+            res.json(err);
+        };
+
+        if (result) {
+            subject.findByIdAndRemove(subjectId, (err, subject) => {
+                err ? log(err.message) : res.status(200).json("Subject Deleted/Removed Successfully");
+            })
+        }
+    })
+};
+
+//get Subjects Name
 exports.getSubject = (req, res) => {
     const { semester, branch } = req.params;
     subject.find({ semester: semester, branch: branch }, (err, subject) => {
@@ -99,26 +240,61 @@ exports.getSubject = (req, res) => {
     })
 };
 
+// get Filter Subjects Data
+exports.filterSubject = (req, res) => {
+    const { branch, semester, subjectType } = req.params;
+    subject.find({
+        semester: semester,
+        branch: branch,
+        subjectType: subjectType
+    }, (err, subjectData) => {
+
+        err ? log(err.message) : res.status(200).json(subjectData);
+    })
+};
+
 // set(update) courseFee Due Date
 exports.updateCourseFeeDueDate = (req, res) => {
-    let newDate = new courseFeeDueDate(req.body);
+    const { documentId, adminAuthToken } = req.params;
+    let newDates = new courseFeeDueDate(req.body);
+    const { caste, firstYear, secondYear, thirdYear, fourthYear } = newDates;
 
-    courseFeeDueDate.findByIdAndUpdate(req.params.id, {
-        firstYear: newDate.firstYear,
-        secondYear: newDate.secondYear,
-        thirdYear: newDate.thirdYear,
-        fourthYear: newDate.fourthYear
-    }, (err, courseFeeDueDate) => {
-        err ? log(err.message) : res.status(200).json(courseFeeDueDate);
+    adminAuth.exists({ _id: adminAuthToken }, (err, result) => {
+        if (err) {
+            res.json(err);
+        };
+
+        if (result) {
+
+
+            courseFeeDueDate.findByIdAndUpdate(documentId, {
+                caste,
+                firstYear,
+                secondYear,
+                thirdYear,
+                fourthYear
+            }, (err, courseFeeDueDate) => {
+                err ? log(err.message) : res.status(200).json(courseFeeDueDate);
+            });
+
+        };
     });
-
 };
 
 // get courseFee Due Date
 exports.getCourseFeeDueDate = (req, res) => {
-    courseFeeDueDate.findById(req.params.id, (err, courseFeeDueDate) => {
-        err ? log(err.message) : res.json(courseFeeDueDate);
-    });
+    const { adminAuthToken } = req.params;
+    adminAuth.exists({ _id: adminAuthToken }, (err, result) => {
+        if (err) {
+            res.json(err);
+
+        } else {
+            courseFeeDueDate.find((err, courseFeeDueDate) => {
+                err ? log(err.message) : res.status(200).json(courseFeeDueDate);
+            });
+        }
+
+    })
 };
 
 // set(update) courseFeeType
@@ -159,9 +335,36 @@ exports.getBackFeeType = (req, res) => {
 
 //set(update) backFee-Due-Date
 exports.updateBackFeeDueDate = (req, res) => {
-    const newDate = backFeeDueDate(req.body);
-    backFeeDueDate.findByIdAndUpdate(req.params.id, req.body, (err, backFeeDueDate) => {
-        err ? log(err.message) : res.status(200).json(backFeeDueDate);
+    const { documentId, adminAuthToken } = req.params;
+    const newDates = backFeeDueDate(req.body);
+    const { firstSemester,
+        secondSemester,
+        thirdSemester,
+        fourthSemester,
+        fifthSemester,
+        sixthSemester,
+        seventhSemester,
+        eighthSemester } = newDates;
+
+    adminAuth.exists({ _id: adminAuthToken }, (err, result) => {
+        if (err) {
+            res.json(err);
+        };
+
+        if (result) {
+            backFeeDueDate.findByIdAndUpdate(documentId, {
+                firstSemester,
+                secondSemester,
+                thirdSemester,
+                fourthSemester,
+                fifthSemester,
+                sixthSemester,
+                seventhSemester,
+                eighthSemester
+            }, (err, backFeeDueDate) => {
+                err ? log(err.message) : res.status(200).json(backFeeDueDate);
+            });
+        };
     });
 };
 
@@ -199,6 +402,12 @@ exports.getStudentProfile = (req, res) => {
     studentProfile.findById(req.params.id, (err, studentProfile) => {
         err ? log(err.message) : res.status(200).json(studentProfile);
     })
+};
+
+exports.updateStudentProfile = (req, res) => {
+    studentProfile.findByIdAndUpdate(req.params.id, req.body, (err, updateProfile) => {
+        err ? log(err.message) : res.status(200).json(updateProfile);
+    });
 };
 
 // courseFeePayment

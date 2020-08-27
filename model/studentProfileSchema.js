@@ -16,7 +16,40 @@ let studentProfileSchema = new Schema({
         uppercase: true,
         required: true
     },
+    motherName: {
+        type: String,
+        uppercase: true,
+        required: true
+    },
     fatherName: {
+        type: String,
+        uppercase: true,
+        required: true
+    },
+    caste: {
+        type: String,
+        uppercase: true,
+        required: true
+    },
+    domicile: {
+        type: String,
+        required: true
+    },
+    minority: {
+        type: String,
+        uppercase: true,
+        required: true
+    },
+    minorityType: {
+        type: String,
+        required: true
+    },
+    physicalHandicap: {
+        type: String,
+        uppercase: true,
+        required: true
+    },
+    physicalHandicapType: {
         type: String,
         uppercase: true,
         required: true

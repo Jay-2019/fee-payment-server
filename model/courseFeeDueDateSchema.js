@@ -6,6 +6,10 @@ const Schema = mongoose.Schema;
 
 let courseFeeDueDateSchema = new Schema({
 
+    caste: {
+        type: String,
+        required: true
+    },
     firstYear: {
         type: Date,
         required: true
